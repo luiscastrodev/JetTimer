@@ -28,7 +28,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
+                    JetTimerApp()
                 }
             }
         }
@@ -37,18 +37,16 @@ class MainActivity : ComponentActivity() {
 
     @Composable
     fun JetTimerApp() {
-        
+
         val currentTime by viewModel.currentTime.collectAsState()
         val isRunning by viewModel.isTimerRunning.collectAsState()
 
+        Timer(
+            currentTime = currentTime,
+            isRunning = isRunning,
+            onStart = { viewModel.startTimer() },
+            onRestart = {
+                viewModel.restartTimer()
+            })
     }
-
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }

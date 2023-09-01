@@ -53,4 +53,9 @@ class MainViewModel : ViewModel() {
         _currentTime.value = totalTime
         _isTimerRunning.value = false
     }
+
+    override fun onCleared() {
+        super.onCleared()
+        resetTimer()
+    }
 }
