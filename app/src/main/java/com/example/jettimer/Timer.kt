@@ -39,7 +39,7 @@ fun Timer(
             }
         }
 
-        Text(text = currentTime.toString())
+        Text(text = getFormattedTime(currentTime))
     }
 }
 
