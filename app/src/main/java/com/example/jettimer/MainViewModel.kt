@@ -1,5 +1,6 @@
 package com.example.jettimer
 
+import android.os.CountDownTimer
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -13,6 +14,19 @@ class MainViewModel : ViewModel() {
     private val _isTimerRunning: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val isTimerRunning: StateFlow<Boolean>
         get() = _isTimerRunning
+
+
+    private val timer: CountDownTimer =
+        object : CountDownTimer(totalTime, interval){
+            override fun onTick(millsUntilFinished: Long) {
+                _currentTime.value = millsUntilFinished
+            }
+
+            override fun onFinish() {
+                _currentTime.value = totalTime
+                _isTimerRunning.value = false
+            }
+        }
 
     companion object {
         const val totalTime = 30 * 1000L
