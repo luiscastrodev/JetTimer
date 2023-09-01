@@ -1,22 +1,33 @@
 package com.example.jettimer
 
 import android.content.res.Configuration
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.SizeTransform
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutVertically
+import androidx.compose.animation.with
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.jettimer.ui.theme.JetTimerTheme
 
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun Timer(
     currentTime: Long,
@@ -39,8 +50,29 @@ fun Timer(
             }
         }
 
-        Text(text = getFormattedTime(currentTime))
+        AnimatedContent(
+            targetState = currentTime,
+            transitionSpec = {
+                if (targetState > initialState) {
+                    slideInVertically { fullHeight -> fullHeight } + fadeIn() with
+                            slideOutVertically { fullHeight -> fullHeight } + fadeOut()
+                } else {
+                    slideInVertically { fullHeight -> fullHeight } + fadeIn() with
+                            slideOutVertically { fullHeight -> fullHeight } + fadeOut()
+                }.using(
+                    sizeTransform = SizeTransform(clip = false)
+                )
+            }, label = ""
+        ) { time ->
+            Text(text = getFormattedTime(time),
+                style = MaterialTheme.typography.bodyLarge,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
+
+
+
 }
 
 @Preview(
