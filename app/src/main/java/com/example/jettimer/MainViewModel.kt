@@ -32,4 +32,25 @@ class MainViewModel : ViewModel() {
         const val totalTime = 30 * 1000L
         const val interval = 1000L
     }
+
+
+    fun startTimer(){
+        if(_isTimerRunning.value){
+            resetTimer()
+        }
+        timer.start()
+        _isTimerRunning.value = true
+    }
+
+    fun restartTimer(){
+        if(_isTimerRunning.value){
+            resetTimer()
+        }
+    }
+
+    private fun resetTimer(){
+        timer.cancel()
+        _currentTime.value = totalTime
+        _isTimerRunning.value = false
+    }
 }
